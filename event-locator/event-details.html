@@ -229,4 +229,298 @@
                         <div class="mt-4">
                             <h5>About This Event</h5>
                             <p id="eventLongDescription" class="text-muted">
-                                This is where a longer description of
+                                This is where a longer description of the event would go. It provides more detailed information about what attendees can expect, special features, and any important notes about the event.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="col-lg-4">
+                        <div class="bg-light p-4 rounded-3">
+                            <!-- Book Now Button -->
+                            <div class="d-grid mb-4">
+                                <button class="btn btn-primary btn-book" onclick="bookEvent()">
+                                    🎫 Book Now
+                                </button>
+                            </div>
+
+                            <!-- Share Event -->
+                            <div class="mb-4">
+                                <h6 class="mb-3">Share This Event</h6>
+                                <div class="d-flex share-buttons">
+                                    <a href="#" class="share-btn facebook" onclick="shareOnFacebook()">f</a>
+                                    <a href="#" class="share-btn twitter" onclick="shareOnTwitter()">🐦</a>
+                                    <a href="#" class="share-btn whatsapp" onclick="shareOnWhatsApp()">📱</a>
+                                    <a href="#" class="share-btn email" onclick="shareViaEmail()">✉️</a>
+                                </div>
+                            </div>
+
+                            <!-- Event Organizer -->
+                            <div class="mb-4">
+                                <h6 class="mb-3">Event Organizer</h6>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; color: white;">
+                                        👤
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Event Organizer</h6>
+                                        <small class="text-muted">Professional event management</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div>
+                                <h6 class="mb-3">Contact Information</h6>
+                                <div class="mb-2">
+                                    <small class="text-muted">📧 Email:</small>
+                                    <p class="mb-1">info@eventlocator.com</p>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">📞 Phone:</small>
+                                    <p class="mb-1">+250 123 456 789</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Events Button -->
+                <div class="text-center mt-5">
+                    <a href="events.html" class="btn btn-outline-primary">
+                        ← Back to Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Sample event data (same as in events.html)
+        const sampleEvents = [
+            {
+                id: 1,
+                name: "Kigali Music Festival",
+                date: "2024-08-15",
+                time: "18:00",
+                location: "Kigali Convention Centre",
+                category: "music",
+                description: "A spectacular music festival featuring local and international artists.",
+                longDescription: "Join us for an unforgettable evening of music at the Kigali Music Festival. This annual event brings together the best local and international artists for a night of diverse musical performances. From traditional Rwandan music to contemporary pop, jazz, and world music, there's something for everyone. The festival features multiple stages, food vendors, and interactive experiences for all ages. Don't miss this celebration of music and culture in the heart of Kigali!",
+                price: "Free",
+                image: "🎵",
+                organizer: "Kigali Cultural Events",
+                email: "music@kigalievents.com",
+                phone: "+250 123 456 789"
+            },
+            {
+                id: 2,
+                name: "Tech Innovation Summit",
+                date: "2024-08-20",
+                time: "09:00",
+                location: "University of Rwanda",
+                category: "technology",
+                description: "Exploring the latest trends in technology and innovation.",
+                longDescription: "The Tech Innovation Summit brings together entrepreneurs, developers, and tech enthusiasts to explore the future of technology in Rwanda and beyond. This full-day event features keynote speakers, panel discussions, workshops, and networking opportunities. Topics include artificial intelligence, blockchain, mobile development, and digital transformation. Whether you're a seasoned professional or just starting your tech journey, this summit offers valuable insights and connections.",
+                price: "25,000 RWF",
+                image: "💻",
+                organizer: "Rwanda Tech Community",
+                email: "summit@rwandatech.com",
+                phone: "+250 987 654 321"
+            },
+            {
+                id: 3,
+                name: "Cultural Art Exhibition",
+                date: "2024-08-25",
+                time: "14:00",
+                location: "Kigali Cultural Center",
+                category: "art",
+                description: "Showcasing traditional and contemporary Rwandan art.",
+                longDescription: "Immerse yourself in the rich artistic heritage of Rwanda at this comprehensive art exhibition. The show features works from both established and emerging artists, covering traditional crafts, contemporary paintings, sculptures, and mixed media pieces. The exhibition explores themes of identity, history, and hope, providing visitors with a deep understanding of Rwandan culture through artistic expression. Guided tours are available, and several artists will be present to discuss their work.",
+                price: "10,000 RWF",
+                image: "🎨",
+                organizer: "Kigali Arts Council",
+                email: "art@kigaliarts.rw",
+                phone: "+250 456 789 012"
+            },
+            {
+                id: 4,
+                name: "Food & Wine Festival",
+                date: "2024-08-30",
+                time: "12:00",
+                location: "Nyamirambo Green Park",
+                category: "food",
+                description: "Taste delicious local and international cuisine.",
+                longDescription: "Celebrate the diverse culinary landscape of Rwanda and beyond at our annual Food & Wine Festival. This outdoor event features over 30 food vendors offering everything from traditional Rwandan dishes to international cuisine. Local wineries and breweries will showcase their finest products, and cooking demonstrations by renowned chefs will happen throughout the day. Live music, family activities, and cultural performances create a festive atmosphere for all ages.",
+                price: "15,000 RWF",
+                image: "🍽️",
+                organizer: "Kigali Food Network",
+                email: "food@kigalifood.com",
+                phone: "+250 789 012 345"
+            },
+            {
+                id: 5,
+                name: "Football Championship",
+                date: "2024-09-05",
+                time: "15:00",
+                location: "Amahoro Stadium",
+                category: "sports",
+                description: "Exciting football matches between top teams.",
+                longDescription: "Experience the thrill of competitive football at the annual championship featuring Rwanda's top teams. This tournament brings together skilled players from across the country in a series of exciting matches. The event promises high-energy gameplay, passionate fan support, and the crowning of this year's champions. Food and beverages will be available, and special seating areas are reserved for families. Come support your favorite team and enjoy a day of spectacular football!",
+                price: "5,000 RWF",
+                image: "⚽",
+                organizer: "Rwanda Football Federation",
+                email: "championship@rwandafootball.com",
+                phone: "+250 012 345 678"
+            },
+            {
+                id: 6,
+                name: "Business Networking Event",
+                date: "2024-09-10",
+                time: "17:00",
+                location: "Kigali Marriott Hotel",
+                category: "business",
+                description: "Connect with entrepreneurs and business leaders.",
+                longDescription: "Join Rwanda's most influential business networking event, designed to connect entrepreneurs, business leaders, and professionals from various industries. This elegant evening event features structured networking sessions, keynote presentations on business trends, and opportunities to showcase your business or services. The event includes a welcome reception, dinner, and plenty of time for meaningful conversations. Whether you're looking to expand your network, find potential partners, or explore new opportunities, this is the perfect platform.",
+                price: "20,000 RWF",
+                image: "💼",
+                organizer: "Rwanda Business Network",
+                email: "networking@rwandabusiness.com",
+                phone: "+250 345 678 901"
+            }
+        ];
+
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: parseInt(params.get('id')) || null
+            };
+        }
+
+        // Function to find event by ID
+        function findEventById(id) {
+            return sampleEvents.find(event => event.id === id);
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Function to display event details
+        function displayEventDetails() {
+            const { id } = getUrlParams();
+            const event = findEventById(id);
+            
+            // Hide loading state
+            document.getElementById('loadingState').style.display = 'none';
+            
+            if (!event) {
+                document.getElementById('errorState').style.display = 'block';
+                return;
+            }
+            
+            // Category colors
+            const categoryColors = {
+                music: 'bg-primary',
+                sports: 'bg-success',
+                food: 'bg-warning',
+                technology: 'bg-info',
+                art: 'bg-danger',
+                business: 'bg-secondary'
+            };
+            
+            // Update page title
+            document.title = `${event.name} - Event Locator`;
+            
+            // Populate event details
+            document.getElementById('eventHeroIcon').textContent = event.image;
+            document.getElementById('eventCategory').textContent = event.category.charAt(0).toUpperCase() + event.category.slice(1);
+            document.getElementById('eventCategory').className = `badge ${categoryColors[event.category] || 'bg-secondary'} mb-2`;
+            document.getElementById('eventTitle').textContent = event.name;
+            document.getElementById('eventDescription').textContent = event.description;
+            document.getElementById('eventDateTime').textContent = `${formatDate(event.date)} at ${event.time}`;
+            document.getElementById('eventLocation').textContent = event.location;
+            document.getElementById('eventPrice').textContent = event.price;
+            document.getElementById('eventCategoryText').textContent = event.category.charAt(0).toUpperCase() + event.category.slice(1);
+            document.getElementById('eventLongDescription').textContent = event.longDescription;
+            
+            // Show event details
+            document.getElementById('eventDetails').style.display = 'block';
+        }
+
+        // Function to book event
+        function bookEvent() {
+            const { id } = getUrlParams();
+            const event = findEventById(id);
+            
+            if (event) {
+                alert(`🎉 Great choice! You're interested in booking "${event.name}". 
+                
+In a real application, this would redirect you to a booking page or payment system. 
+                
+For now, you can contact the organizer:
+📧 ${event.email || 'info@eventlocator.com'}
+📞 ${event.phone || '+250 123 456 789'}`);
+            }
+        }
+
+        // Social sharing functions
+        function shareOnFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+
+        function shareOnTwitter() {
+            const { id } = getUrlParams();
+            const event = findEventById(id);
+            const text = encodeURIComponent(`Check out this amazing event: ${event.name}!`);
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        }
+
+        function shareOnWhatsApp() {
+            const { id } = getUrlParams();
+            const event = findEventById(id);
+            const text = encodeURIComponent(`Check out this amazing event: ${event.name}! ${window.location.href}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function shareViaEmail() {
+            const { id } = getUrlParams();
+            const event = findEventById(id);
+            const subject = encodeURIComponent(`Check out this event: ${event.name}`);
+            const body = encodeURIComponent(`Hi! I thought you might be interested in this event:
+
+${event.name}
+${event.description}
+
+Date: ${formatDate(event.date)} at ${event.time}
+Location: ${event.location}
+Price: ${event.price}
+
+More details: ${window.location.href}
+
+Hope to see you there!`);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        // Load event details when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading delay
+            setTimeout(displayEventDetails, 1000);
+        });
+    </script>
+</body>
+</html>
