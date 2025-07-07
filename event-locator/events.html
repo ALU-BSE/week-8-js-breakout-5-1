@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Event Locator</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .event-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        .search-summary {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .no-events {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">🎉 Event Locator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="events.html">Events</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Search Summary -->
+        <div class="search-summary">
+            <h2 class="mb-3">Events Found</h2>
+            <div id="searchSummary" class="text-muted">
+                <p class="mb-0">Loading events...</p>
+            </div>
+            <div class="mt-3">
+                <a href="index.html" class="btn btn-outline-primary btn-sm">🔍 New Search</a>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Finding awesome events for you...</p>
+        </div>
+
+        <!-- Events Grid -->
+        <div id="eventsGrid" class="row g-4" style="display: none;">
+            <!-- Events will be dynamically added here -->
+        </div>
+
+        <!-- No Events Found -->
+        <div id="noEvents" class="no-events" style="display: none;">
+            <div class="display-1 text-muted mb-3">😔</div>
+            <h3>No Events Found</h3>
+            <p>We couldn't find any events matching your criteria. Try adjusting your search filters.</p>
+            <a href="index.html" class="btn btn-primary">Back to Search</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Sample event data (in a real app, this would come from a database)
+        const sampleEvents = [
+            {
+                id: 1,
+                name: "Kigali Music Festival",
+                date: "2024-08-15",
+                time: "18:00",
+                location: "Kigali Convention Centre",
+                category: "music",
+                description: "A spectacular music festival featuring local and international artists.",
+                price: "Free",
+                image: "🎵"
+            },
+            {
+                id: 2,
+                name: "Tech Innovation Summit",
+                date: "2024-08-20",
+                time: "09:00",
+                location: "University of Rwanda",
+                category: "technology",
+                description: "Exploring the latest trends in technology and innovation.",
+                price: "25,000 RWF",
+                image: "💻"
+            },
+            {
+                id: 3,
+                name: "Cultural Art Exhibition",
+                date: "2024-08-25",
+                time: "14:00",
+                location: "Kigali Cultural Center",
+                category: "art",
+                description: "Showcasing traditional and contemporary Rwandan art.",
+                price: "10,000 RWF",
+                image: "🎨"
+            },
+            {
+                id: 4,
+                name: "Food & Wine Festival",
+                date: "2024-08-30",
+                time: "12:00",
+                location: "Nyamirambo Green Park",
+                category: "food",
+                description: "Taste delicious local and international cuisine.",
+                price: "15,000 RWF",
+                image: "🍽️"
+            },
+            {
+                id: 5,
+                name: "Football Championship",
+                date: "2024-09-05",
+                time: "15:00",
+                location: "Amahoro Stadium",
+                category: "sports",
+                description: "Exciting football matches between top teams.",
+                price: "5,000 RWF",
+                image: "⚽"
+            },
+            {
+                id: 6,
+                name: "Business Networking Event",
+                date: "2024-09-10",
+                time: "17:00",
+                location: "Kigali Marriott Hotel",
+                category: "business",
+                description: "Connect with entrepreneurs and business leaders.",
+                price: "20,000 RWF",
+                image: "💼"
+            }
+        ];
+
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                city: params.get('city') || '',
+                date: params.get('date') || '',
+                category: params.get('category') || ''
+            };
+        }
+
+        // Function to filter events based on search criteria
+        function filterEvents(events, filters) {
+            return events.filter(event => {
+                // Filter by category
+                if (filters.category && event.category !== filters.category) {
+                    return false;
+                }
+                
+                // Filter by date (simplified - in real app, you'd handle date ranges properly)
+                if (filters.date) {
+                    const eventDate = new Date(event.date);
+                    const today = new Date();
+                    
+                    switch(filters.date) {
+                        case 'today':
+                            return eventDate.toDateString() === today.toDateString();
+                        case 'tomorrow':
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(today.getDate() + 1);
+                            return eventDate.toDateString() === tomorrow.toDateString();
+                        case 'this-week':
+                            const weekFromNow = new Date(today);
+                            weekFromNow.setDate(today.getDate() + 7);
+                            return eventDate >= today && eventDate <= weekFromNow;
+                        case 'this-month':
+                            return eventDate.getMonth() === today.getMonth() && 
+                                   eventDate.getFullYear() === today.getFullYear();
+                    }
+                }
+                
+                return true;
+            });
+        }
+
+        // Function to create event card HTML
+        function createEventCard(event) {
+            const categoryColors = {
+                music: 'bg-primary',
+                sports: 'bg-success',
+                food: 'bg-warning',
+                technology: 'bg-info',
+                art: 'bg-danger',
+                business: 'bg-secondary'
+            };
+            
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            };
+
+            return `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card event-card h-100 border-0 shadow-sm position-relative" onclick="viewEventDetails(${event.id})">
+                        <span class="badge ${categoryColors[event.category] || 'bg-secondary'} category-badge">
+                            ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+                        </span>
+                        <div class="event-image">
+                            ${event.image}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${event.name}</h5>
+                            <p class="card-text text-muted mb-2">
+                                <small>📅 ${formatDate(event.date)} at ${event.time}</small>
+                            </p>
+                            <p class="card-text text-muted mb-2">
+                                <small>📍 ${event.location}</small>
+                            </p>
+                            <p class="card-text">${event.description}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-success">${event.price}</span>
+                                <small class="text-muted">Click for details</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to update search summary
+        function updateSearchSummary(filters, eventCount) {
+            const summaryEl = document.getElementById('searchSummary');
+            let summaryText = `Found ${eventCount} events`;
+            
+            if (filters.city) {
+                summaryText += ` in ${filters.city}`;
+            }
+            
+            if (filters.category) {
+                summaryText += ` in ${filters.category}`;
+            }
+            
+            if (filters.date) {
+                const dateText = filters.date.replace('-', ' ');
+                summaryText += ` for ${dateText}`;
+            }
+            
+            summaryEl.innerHTML = `<p class="mb-0">${summaryText}</p>`;
+        }
+
+        // Function to display events
+        function displayEvents() {
+            const filters = getUrlParams();
+            const filteredEvents = filterEvents(sampleEvents, filters);
+            
+            // Hide loading state
+            document.getElementById('loadingState').style.display = 'none';
+            
+            // Update search summary
+            updateSearchSummary(filters, filteredEvents.length);
+            
+            if (filteredEvents.length === 0) {
+                document.getElementById('noEvents').style.display = 'block';
+                return;
+            }
+            
+            // Display events
+            const eventsGrid = document.getElementById('eventsGrid');
+            eventsGrid.innerHTML = filteredEvents.map(createEventCard).join('');
+            eventsGrid.style.display = 'block';
+        }
+
+        // Function to view event details
+        function viewEventDetails(eventId) {
+            window.location.href = `event-details.html?id=${eventId}`;
+        }
+
+        // Load events when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading delay
+            setTimeout(displayEvents, 1000);
+        });
+    </script>
+</body>
+</html>

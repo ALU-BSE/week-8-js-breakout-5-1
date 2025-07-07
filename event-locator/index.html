@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Locator - Find Events in Your City</title>
+    
+    <!-- Bootstrap CSS from CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Custom styles for better appearance */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .search-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .btn-search {
+            background-color: #667eea;
+            border-color: #667eea;
+            padding: 12px 30px;
+            font-weight: bold;
+        }
+        
+        .btn-search:hover {
+            background-color: #5a67d8;
+            border-color: #5a67d8;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">🎉 Event Locator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="events.html">Events</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">Find Amazing Events Near You</h1>
+            <p class="lead mb-4">Discover concerts, workshops, festivals, and more happening in your city</p>
+            
+            <!-- Search Container -->
+            <div class="search-container">
+                <form id="searchForm">
+                    <div class="row g-3">
+                        <!-- City Search -->
+                        <div class="col-md-4">
+                            <label for="cityInput" class="form-label text-dark fw-semibold">City</label>
+                            <input type="text" class="form-control" id="cityInput" placeholder="Enter your city" value="Kigali">
+                        </div>
+                        
+                        <!-- Date Filter -->
+                        <div class="col-md-4">
+                            <label for="dateFilter" class="form-label text-dark fw-semibold">Date</label>
+                            <select class="form-select" id="dateFilter">
+                                <option value="">All Dates</option>
+                                <option value="today">Today</option>
+                                <option value="tomorrow">Tomorrow</option>
+                                <option value="this-week">This Week</option>
+                                <option value="this-month">This Month</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Category Filter -->
+                        <div class="col-md-4">
+                            <label for="categoryFilter" class="form-label text-dark fw-semibold">Category</label>
+                            <select class="form-select" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="music">Music</option>
+                                <option value="sports">Sports</option>
+                                <option value="food">Food & Drink</option>
+                                <option value="technology">Technology</option>
+                                <option value="art">Art & Culture</option>
+                                <option value="business">Business</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Button -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-search btn-lg">
+                                🔍 Search Events
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose Event Locator?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="display-4 text-primary mb-3">🎯</div>
+                            <h5 class="card-title">Easy Search</h5>
+                            <p class="card-text">Find events quickly with our intuitive search and filter system.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="display-4 text-success mb-3">📱</div>
+                            <h5 class="card-title">Mobile Friendly</h5>
+                            <p class="card-text">Access events on any device - desktop, tablet, or mobile phone.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="display-4 text-warning mb-3">⚡</div>
+                            <h5 class="card-title">Real-time Updates</h5>
+                            <p class="card-text">Get the latest information about events as they happen.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Event Locator. Made with ❤️ for event enthusiasts.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Handle form submission
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const city = document.getElementById('cityInput').value;
+            const date = document.getElementById('dateFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            
+            // Create URL parameters
+            const params = new URLSearchParams();
+            if (city) params.append('city', city);
+            if (date) params.append('date', date);
+            if (category) params.append('category', category);
+            
+            // Redirect to events page with parameters
+            window.location.href = `events.html?${params.toString()}`;
+        });
+    </script>
+</body>
+</html>

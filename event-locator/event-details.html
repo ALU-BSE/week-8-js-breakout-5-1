@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - Event Locator</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        .event-hero {
+            height: 300px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+        }
+        
+        .event-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .event-details-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: -50px;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .detail-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .btn-book {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 0;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 100px 0;
+            color: #6c757d;
+        }
+        
+        .share-buttons {
+            gap: 10px;
+        }
+        
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+        
+        .share-btn.facebook { background: #3b5998; }
+        .share-btn.twitter { background: #1da1f2; }
+        .share-btn.whatsapp { background: #25d366; }
+        .share-btn.email { background: #34495e; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">🎉 Event Locator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="events.html">Events</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading event details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error" style="display: none;">
+        <div class="display-1 text-muted mb-3">😕</div>
+        <h3>Event Not Found</h3>
+        <p>We couldn't find the event you're looking for.</p>
+        <a href="events.html" class="btn btn-primary">Back to Events</a>
+    </div>
+
+    <!-- Event Details -->
+    <div id="eventDetails" style="display: none;">
+        <!-- Event Hero -->
+        <div class="event-hero">
+            <div class="event-hero-content" id="eventHeroIcon">
+                🎉
+            </div>
+        </div>
+
+        <!-- Event Details Card -->
+        <div class="container">
+            <div class="event-details-card p-4 mb-5">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Event Title and Category -->
+                        <div class="mb-4">
+                            <span id="eventCategory" class="badge bg-primary mb-2">Music</span>
+                            <h1 id="eventTitle" class="display-5 fw-bold mb-3">Event Title</h1>
+                            <p id="eventDescription" class="lead text-muted">Event description goes here...</p>
+                        </div>
+
+                        <!-- Event Details -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="detail-icon me-3">📅</div>
+                                        <div>
+                                            <h6 class="mb-1">Date & Time</h6>
+                                            <p id="eventDateTime" class="mb-0 text-muted">Date and time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="detail-icon me-3">📍</div>
+                                        <div>
+                                            <h6 class="mb-1">Location</h6>
+                                            <p id="eventLocation" class="mb-0 text-muted">Event location</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="detail-icon me-3">💰</div>
+                                        <div>
+                                            <h6 class="mb-1">Price</h6>
+                                            <p id="eventPrice" class="mb-0 text-success fw-bold">Price</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="detail-icon me-3">🏷️</div>
+                                        <div>
+                                            <h6 class="mb-1">Category</h6>
+                                            <p id="eventCategoryText" class="mb-0 text-muted">Category</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <div class="mt-4">
+                            <h5>About This Event</h5>
+                            <p id="eventLongDescription" class="text-muted">
+                                This is where a longer description of
